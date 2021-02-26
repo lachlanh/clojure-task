@@ -27,4 +27,20 @@
   (testing "values 20 through 99"
     (is (= (num-word 20) "twenty"))
     (is (= (num-word 26) "twenty six"))
+    (is (= (num-word 99) "ninety nine"))
+    (is (= (num-word 42) "forty two"))))
+
+(deftest hundreds-test
+  (testing "values 100 through 999"
+    (is (= (num-word 100) "one hundred"))
+    (is (= (num-word 102) "one hundred and two"))
+    (is (= (num-word 116) "one hundred and sixteen"))
     ))
+
+(deftest thousands-test
+  (testing "values 1000 through 9999"
+    (is (= (num-word 1000) "one thousand"))
+    (is (= (num-word 1002) "one thousand and two"))
+    (is (= (num-word 1016) "one thousand and sixteen"))
+    (is (= (num-word 1020) "one thousand and twenty"))
+    (is (= (num-word 1120) "one thousand one hundred and twenty"))))
