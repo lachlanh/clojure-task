@@ -1,4 +1,7 @@
-(ns wefarm-task.core)
+(ns wefarm-task.core
+  (:require [clojure.core :refer :all]))
+
+(def num-names {:ones ["zero" "one" "two" "three" "four" "five" "six" "seven" "eight" "nine"]})
 
 (defn- valid-number?
   [x]
@@ -8,4 +11,6 @@
   ""
   [input]
   {:pre [(valid-number? input)]}
-  "sixty six")
+  (if (= (quot input 10) 0)
+    (get (:ones num-names) input)
+    nil))
