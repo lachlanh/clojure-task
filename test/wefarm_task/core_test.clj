@@ -17,3 +17,14 @@
     (is (= (num-word 0) "zero"))
     (is (= (num-word 1) "one"))
     (is (= (num-word 9) "nine"))))
+
+(deftest teens-test
+  (testing "values 10 through 19"
+    (is (= (num-word 10) "ten"))
+    (is (= (num-word 19) "nineteen"))))
+
+(deftest tens-test
+  (testing "values 20 through 99"
+    (is (= (num-word 20) "twenty"))
+    (is (= (num-word 26) "twenty six"))
+    ))
