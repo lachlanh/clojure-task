@@ -1,6 +1,11 @@
 (ns wefarm-task.core)
 
-(defn foo
-  "I don't do a whole lot."
+(defn- valid-number?
   [x]
-  (println x "Hello, World!"))
+  (and (integer? x) (>= x 0) (<= x 999999999)))
+
+(defn num-word
+  ""
+  [input]
+  {:pre [(valid-number? input)]}
+  "sixty six")
