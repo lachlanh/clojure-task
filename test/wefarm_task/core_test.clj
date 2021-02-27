@@ -78,6 +78,7 @@
   (testing "values 100,000,000 - 999,999,999"
     (is (= (num-word 100000000) "one hundred million"))
     (is (= (num-word 311517000) "three hundred and eleven million five hundred and seventeen thousand"))
+    (is (= (num-word 300017000) "three hundred million seventeen thousand")) ;; TODO LH not sure if this should be three hundred million and seventeen thousand ??
     (is (= (num-word 999999999) "nine hundred and ninety nine million nine hundred and ninety nine thousand nine hundred and ninety nine"))
     ))
 
