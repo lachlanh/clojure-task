@@ -99,6 +99,30 @@
         (str millions " " (ten-thousands (pop h-ts))))
       millions)))
 
+(defn- ten-millions
+  [d]
+  (let [millions (str (tens-ones (tailv d 2)) " " "million")
+        h-ts (headv d 6)
+        has-hundred-thousands (> (last h-ts) 0)
+        sum-of-rest (reduce + h-ts)]
+    (if (> sum-of-rest 0)
+      (if has-hundred-thousands
+        (str millions " " (hundred-thousands h-ts))
+        (str millions " " (ten-thousands (pop h-ts))))
+      millions)))
+
+(defn- hundred-millions
+  [d]
+  (let [millions (str (hundreds (tailv d 3)) " " "million")
+        h-ts (headv d 6)
+        has-hundred-thousands (> (last h-ts) 0)
+        sum-of-rest (reduce + h-ts)]
+    (if (> sum-of-rest 0)
+      (if has-hundred-thousands
+        (str millions " " (hundred-thousands h-ts))
+        (str millions " " (ten-thousands (pop h-ts))))
+      millions)))
+
 (defn num-word
   ""
   [input]
@@ -113,4 +137,6 @@
       5 (ten-thousands d)
       6 (hundred-thousands d)
       7 (millions d)
+      8 (ten-millions d)
+      9 (hundred-millions d)
       )))
