@@ -44,3 +44,26 @@
     (is (= (num-word 1016) "one thousand and sixteen"))
     (is (= (num-word 1020) "one thousand and twenty"))
     (is (= (num-word 1120) "one thousand one hundred and twenty"))))
+
+(deftest ten-thousands-test
+  (testing "values 10,000 - 99,000"
+    (is (= (num-word 10000) "ten thousand"))
+    (is (= (num-word 10005) "ten thousand and five"))
+    (is (= (num-word 10105) "ten thousand one hundred and five"))
+    ))
+
+(deftest hundred-thousands-test
+  (testing "values 100,000 - 999,999"
+    (is (= (num-word 100000) "one hundred thousand"))
+    (is (= (num-word 110005) "one hundred and ten thousand and five"))
+    (is (= (num-word 917055) "nine hundred and seventeen thousand and fifty five"))
+    (is (= (num-word 207255) "two hundred and seven thousand two hundred and fifty five"))
+    ))
+
+(deftest millions-test
+  (testing "values 1,000,000 - 9,999,999"
+    (is (= (num-word 1000000) "one million"))
+    (is (= (num-word 9517000) "nine million five hundred and seventeen thousand"))
+    (is (= (num-word 3007002) "three million seven thousand and two")) ;; TODO LH not sure if this should be three million and seven thousand and two ???
+    ))
+

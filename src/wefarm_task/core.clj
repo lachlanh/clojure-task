@@ -62,10 +62,42 @@
         sum-of-rest (reduce + (pop (pop d)))]
     (if (> sum-of-rest 0)
       (if has-hundreds
-        (str thousands " " (hundreds (pop d)))
+        (str thousands " " (hundreds (pop d))) ;; TODO LH feel like this should be pop pop ?
         (str thousands " and " (tens-ones (pop (pop d)))))
       thousands)))
 
+;; TODO LH refactor subvecs to this function
+(defn- tailv
+  [v n]
+  (subvec v (- (count v) n) (count v)))
+
+(defn- headv
+  [v n]
+  (subvec v 0 n))
+
+(defn- hundred-thousands
+  [d]
+  (let [thousands (str (hundreds (tailv d 3)) " " "thousand")
+        hunds (headv d 3) ;; TODO LH need to think about naming here
+        has-hundreds (> (last hunds) 0)
+        sum-of-rest (reduce + hunds)]
+    (if (> sum-of-rest 0)
+      (if has-hundreds
+        (str thousands " " (hundreds hunds))
+        (str thousands " and " (tens-ones (pop hunds))))
+      thousands)))
+
+(defn- millions
+  [d]
+  (let [millions (str (ones (tailv d 1)) " " "million")
+        h-ts (headv d 6)
+        has-hundred-thousands (> (last h-ts) 0)
+        sum-of-rest (reduce + h-ts)]
+    (if (> sum-of-rest 0)
+      (if has-hundred-thousands
+        (str millions " " (hundred-thousands h-ts))
+        (str millions " " (ten-thousands (pop h-ts))))
+      millions)))
 
 (defn num-word
   ""
@@ -79,15 +111,6 @@
       3 (hundreds d)
       4 (thousands d)
       5 (ten-thousands d)
+      6 (hundred-thousands d)
+      7 (millions d)
       )))
-
-(defn num-word-old
-  ""
-  [input]
-  {:pre [(valid-number? input)]}
-  (if (= (quot input 10) 0)
-    (get (:ones num-names) input)
-    (if (= (quot input 10) 1)
-      (get (:teens num-names) (rem input 10))
-      (if (<= 2 (quot input 10) 9)
-        (str (get (:tens num-names) (quot input 10)) (get (:ones num-names) (rem input 10)))))))
