@@ -34,8 +34,7 @@
   (testing "values 100 through 999"
     (is (= (num->word 100) "one hundred"))
     (is (= (num->word 102) "one hundred and two"))
-    (is (= (num->word 116) "one hundred and sixteen"))
-    ))
+    (is (= (num->word 116) "one hundred and sixteen"))))
 
 (deftest thousands-test
   (testing "values 1000 through 9999"
@@ -49,16 +48,14 @@
   (testing "values 10,000 - 99,000"
     (is (= (num->word 10000) "ten thousand"))
     (is (= (num->word 10005) "ten thousand and five"))
-    (is (= (num->word 10105) "ten thousand one hundred and five"))
-    ))
+    (is (= (num->word 10105) "ten thousand one hundred and five"))))
 
 (deftest hundred-thousands-test
   (testing "values 100,000 - 999,999"
     (is (= (num->word 100000) "one hundred thousand"))
     (is (= (num->word 110005) "one hundred and ten thousand and five"))
     (is (= (num->word 917055) "nine hundred and seventeen thousand and fifty five"))
-    (is (= (num->word 207255) "two hundred and seven thousand two hundred and fifty five"))
-    ))
+    (is (= (num->word 207255) "two hundred and seven thousand two hundred and fifty five"))))
 
 (deftest millions-test
   (testing "values 1,000,000 - 9,999,999"
