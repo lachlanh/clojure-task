@@ -16,7 +16,8 @@
 
 (defn- digits
   [x]
-  (->> (iterate #(quot % 10) x)
+  (->> x
+       (iterate #(quot % 10))
        (take-while pos?)
        (mapv #(mod % 10))))
 
@@ -29,70 +30,74 @@
   (subvec v 0 n))
 
 (defn- ones
-  [d]
-  (get (:ones num-names) (get d 0)))
+  [ds]
+  ((:ones num-names) (ds 0)))
 
 (defn- tens
-  [d]
+  [ds]
   (str
-   ((:tens num-names) (d 1))
-   (if (pos? (d 0))
-     (str " " (ones (headv d 1))))))
+   ((:tens num-names) (ds 1))
+   (if (pos? (ds 0))
+     (str " " (ones (headv ds 1))))))
 
 (defn- tens-ones
-  [d]
-  (let [has-tens (and (= (count d) 2) (pos? (last d)))
-        is-teen (and has-tens (= (last d) 1))]
+  [ds]
+  (let [has-tens (and (= (count ds) 2) (pos? (last ds)))
+        is-teen (and has-tens (= (last ds) 1))]
     (if has-tens
       (if is-teen
-        ((:teens num-names) (d 0))
-        (tens d))
-      (ones d))))
+        ((:teens num-names) (ds 0))
+        (tens ds))
+      (ones ds))))
 
 (defn- tens-ones-prefix
-  [d prefix]
-  (let [tens (tens-ones d)
-        has-tens (pos? (reduce + d))]
+  [ds prefix]
+  (let [tens (tens-ones ds)
+        has-tens (pos? (reduce + ds))]
     (if has-tens
       (if prefix
         (str " and " tens)
         tens))))
 
 (defn- hundreds
-  [d prefix]
-  (let [has-hundreds (and (= (count d) 3) (pos? (last d)))
+  [ds prefix]
+  (let [has-hundreds (and (= (count ds) 3) (pos? (last ds)))
         pre-space (if prefix " " "")
-        hundreds (str pre-space (ones (tailv d 1)) " " "hundred") ;; fix this
-        tens-pos (if (= (count d) 3) (pop d) d)]
+        hundreds (str pre-space (ones (tailv ds 1)) " " "hundred") ;; fix this
+        tens-pos (if (= (count ds) 3) (pop ds) ds)]
     (if has-hundreds
       (str hundreds (tens-ones-prefix tens-pos true))
       (tens-ones-prefix tens-pos prefix))))
 
+(defn- period
+  [ds pre order]
+  (let [comp (hundreds ds false)]
+    (if-not (str/blank? comp)
+      (str pre comp " " order))))
+
 (defn- thousands
-  [d]
-  (let [t-pos (subvec d 3 (count d))
-        t-str (hundreds t-pos false)
-        thousands (if (str/blank? t-str) "" (str t-str " " "thousand"))
-        hundreds (hundreds (headv d 3) true)]
+  [ds]
+  (let [t-pos (subvec ds 3 (count ds))
+        thousands (period t-pos "" "thousand")
+        hundreds (hundreds (headv ds 3) true)]
     (str thousands hundreds)))
 
 (defn- millions
-  [d]
-  (let [m-pos (subvec d 6 (count d))
-        m-str (hundreds m-pos false)
-        millions (if (str/blank? m-str) "" (str m-str " " "million"))
-        thousands (thousands (headv d 6))
-        t-space (if (str/blank? thousands) "" " ")]
-    (str millions t-space thousands)))
+  [ds]
+  (let [m-pos (subvec ds 6 (count ds))
+        millions (period m-pos "" "million")
+        thousands (period (subvec ds 3 6) " " "thousand")
+        hundreds (hundreds (headv ds 3) true)]
+    (str millions thousands hundreds)))
 
-(defn num-word
+(defn num->word
   ""
   [x]
   {:pre [(valid-number? x)]}
-  (let [d (digits x)
-        count (count d)]
+  (let [ds (digits x)
+        count (count ds)]
     (cond
       (= x 0) (ones [x])
-      (<= 1 count 3) (hundreds d false)
-      (<= 4 count 6) (thousands d)
-      (<= 6 count 9) (millions d))))
+      (<= 1 count 3) (hundreds ds false)
+      (<= 4 count 6) (thousands ds)
+      (<= 6 count 9) (millions ds))))
