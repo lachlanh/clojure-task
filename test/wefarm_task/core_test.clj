@@ -64,23 +64,20 @@
   (testing "values 1,000,000 - 9,999,999"
     (is (= (num-word 1000000) "one million"))
     (is (= (num-word 9517000) "nine million five hundred and seventeen thousand"))
-    (is (= (num-word 3007002) "three million seven thousand and two")) ;; TODO LH not sure if this should be three million and seven thousand and two ???
-    ))
+    (is (= (num-word 3007002) "three million seven thousand and two"))))
 
 (deftest ten-millions-test
   (testing "values 10,000,000 - 99,999,999"
     (is (= (num-word 10000000) "ten million"))
     (is (= (num-word 17517000) "seventeen million five hundred and seventeen thousand"))
-    (is (= (num-word 99007002) "ninety nine million seven thousand and two"))
-    ))
+    (is (= (num-word 99007002) "ninety nine million seven thousand and two"))))
 
 (deftest hundred-millions-test
   (testing "values 100,000,000 - 999,999,999"
     (is (= (num-word 100000000) "one hundred million"))
     (is (= (num-word 311517000) "three hundred and eleven million five hundred and seventeen thousand"))
-    (is (= (num-word 300017000) "three hundred million seventeen thousand")) ;; TODO LH not sure if this should be three hundred million and seventeen thousand ??
-    (is (= (num-word 999999999) "nine hundred and ninety nine million nine hundred and ninety nine thousand nine hundred and ninety nine"))
-    ))
+    (is (= (num-word 300017000) "three hundred million seventeen thousand"))
+    (is (= (num-word 999999999) "nine hundred and ninety nine million nine hundred and ninety nine thousand nine hundred and ninety nine"))))
 
 (deftest task-tests
   (testing "the values specified in the task"
@@ -93,5 +90,4 @@
     (is (= (num-word 1042) "one thousand and forty two"))
     (is (= (num-word 1105) "one thousand one hundred and five"))
     (is (= (num-word 56945781) "fifty six million nine hundred and forty five thousand seven hundred and eighty one"))
-    (is (= (num-word 999999999) "nine hundred and ninety nine million nine hundred and ninety nine thousand nine hundred and ninety nine"))
-    ))
+    (is (= (num-word 999999999) "nine hundred and ninety nine million nine hundred and ninety nine thousand nine hundred and ninety nine"))))
