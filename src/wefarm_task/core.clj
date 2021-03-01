@@ -35,9 +35,9 @@
 (defn- tens
   [ds]
   (str
-   ((:tens num-names) (ds 1))
-   (if (pos? (ds 0))
-     (str " " (ones (ds 0))))))
+   ((:tens num-names) (last ds))
+   (if (pos? (first ds))
+     (str " " (ones (first ds))))))
 
 (defn- tens-ones
   "Checks if digit sequence passed in is a ones 0-9,
@@ -47,9 +47,9 @@
         is-teen (and has-tens (= (last ds) 1))]
     (if has-tens
       (if is-teen
-        ((:teens num-names) (ds 0))
+        ((:teens num-names) (first ds))
         (tens ds))
-      (ones (ds 0)))))
+      (ones (first ds)))))
 
 (defn- tens-ones-prefix
   "Adds 'and' to tens and ones that need it to satisfy
