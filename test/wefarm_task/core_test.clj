@@ -4,7 +4,7 @@
 
 (deftest bootstrap-test
   (testing "bootstrap test, do something"
-    (is (= "sixty six" (num->word 66)))))
+    (is (= (num->word 42) "forty two"))))
 
 (deftest input-bounds-test
   (testing "check that out of bounds input fails"
