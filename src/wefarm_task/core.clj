@@ -99,6 +99,6 @@
       (ones x); special case for zero
       (->> periods
            (map-indexed #(period %2 %1 len))
-           reverse
            (keep identity) ; remove nils
+           reverse
            (str/join " ")))))
