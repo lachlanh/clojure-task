@@ -17,7 +17,7 @@ A Clojure library to turn numbers into a natural language string 99 -> 'ninety n
 
 ## Build
 
-Commands listed here require having lein/clojure/java installed and accessible on the path[Build-run using docker][].
+Commands listed here require having lein/clojure/java installed and accessible on the path [*](#Docker-alternative).
 
 ```bash
 lein jar
@@ -41,7 +41,7 @@ lein cloverage
 (num->word 99) ;=> returns ninety nine
 ```
 
-## Build-Run using docker
+## Docker alternative
 If you don't have lein installed it is possible to run the following commands using the standard clojure docker image. Use `docker run -it --rm -v "$PWD":/usr/src/app -w /usr/src/app clojure lein cloverage` any artifacts of the lein command will probably have permissions matching the docker daemon (everything was created as root when tested locally).
 
 
