@@ -2,7 +2,7 @@
 
 ## Lachlan Hespe
 
-A Clojure library to turn numbers into a english language string 99 -> 'ninety nine'
+A Clojure library to turn numbers into a natural language string 99 -> 'ninety nine'
 
 ## Technical Decisions
 
@@ -13,7 +13,7 @@ A Clojure library to turn numbers into a english language string 99 -> 'ninety n
 ## Notes
 
 - Maybe some more examples of natural language numbers. I used 3007002 as a test and had to think a bit whether "three million _and_ seven thousand and two" may be correct, decided it wasn't :).
-- I feel that there are more functional approaches to solving the problem, I got a bit stuck with the need to know the positional state to infix the spaces and joining words, I am keen to get feedback on a more idiomatic functional approach.
+- I feel that the my implementation could be further collapsed using more functional language features, but had to decide when to stop, I look forward to getting feedback on how it could be improved.
 
 ## Build
 

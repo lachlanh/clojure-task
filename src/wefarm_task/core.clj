@@ -28,24 +28,16 @@
        (take-while pos?)
        (mapv #(mod % 10))))
 
-(defn- tailv
-  [v n]
-  (subvec v (- (count v) n) (count v)))
-
-(defn- headv
-  [v n]
-  (subvec v 0 n))
-
 (defn- ones
-  [ds]
-  ((:ones num-names) (ds 0)))
+  [d]
+  ((:ones num-names) d))
 
 (defn- tens
   [ds]
   (str
    ((:tens num-names) (ds 1))
    (if (pos? (ds 0))
-     (str " " (ones (headv ds 1))))))
+     (str " " (ones (ds 0))))))
 
 (defn- tens-ones
   "Checks if digit sequence passed in is a ones 0-9,
@@ -57,7 +49,7 @@
       (if is-teen
         ((:teens num-names) (ds 0))
         (tens ds))
-      (ones ds))))
+      (ones (ds 0)))))
 
 (defn- tens-ones-prefix
   "Adds 'and' to tens and ones that need it to satisfy
@@ -76,7 +68,7 @@
   it along (this controls inclusion of 'and'."
   [ds prefix]
   (let [has-hundreds (and (= (count ds) 3) (pos? (last ds)))
-        hundreds (str (ones (tailv ds 1)) " " "hundred")
+        hundreds (str (ones (last ds)) " " "hundred")
         tens-pos (if (= (count ds) 3) (pop ds) ds)]
     (if has-hundreds
       (str/join " " (keep identity [hundreds (tens-ones-prefix tens-pos true)]))
@@ -104,10 +96,9 @@
         len (count ds)
         periods (map vec (partition 3 3 [] ds))]
     (if (= x 0)
-      (ones [x]); special case for zero
+      (ones x); special case for zero
       (->> periods
            (map-indexed #(period %2 %1 len))
            reverse
            (keep identity) ; remove nils
            (str/join " ")))))
-
