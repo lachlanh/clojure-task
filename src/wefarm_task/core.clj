@@ -10,6 +10,8 @@
                        "fifty" "sixty" "seventy" "eighty" "ninety"]
                 })
 
+(def period-names ["" "thousand" "million"])
+
 (def min-int 0)
 (def max-int 999999999)
 
@@ -65,7 +67,7 @@
         has-tens (pos? (reduce + ds))]
     (if has-tens
       (if prefix
-        (str " and " tens)
+        (str "and " tens)
         tens))))
 
 (defn- hundreds
@@ -73,36 +75,23 @@
   up in the appropriate places."
   [ds prefix]
   (let [has-hundreds (and (= (count ds) 3) (pos? (last ds)))
-        pre-space (if prefix " " "")
-        hundreds (str pre-space (ones (tailv ds 1)) " " "hundred")
+        ;;pre-space (if prefix " " "")
+        hundreds (str (ones (tailv ds 1)) " " "hundred")
         tens-pos (if (= (count ds) 3) (pop ds) ds)]
     (if has-hundreds
-      (str hundreds (tens-ones-prefix tens-pos true))
+      (str/join " " (keep identity [hundreds (tens-ones-prefix tens-pos true)]))
       (tens-ones-prefix tens-pos prefix))))
 
 (defn- period
-  "Takes a period (number part between commas eg. 1,222,000 thousand period
-  is 222. Transforms it to natural language and prefixs with 'pre and postfixes
-  an 'order which refers to \"thousand\" \"million\"."
-  [ds pre order]
-  (let [comp (hundreds ds false)]
+  "Takes a period (number part grouped in 3's) the index of the part and
+  the length of the overall number. Returns the natural language version
+  of the period with the order added (thousand, million etc)"
+  [ds i len]
+  (let [comp (hundreds ds (and (= i 0) (> len 3)))
+        order (period-names i)
+        o-str (if-not (str/blank? order) (str " " order))]
     (if-not (str/blank? comp)
-      (str pre comp " " order))))
-
-(defn- thousands
-  [ds]
-  (let [t-pos (subvec ds 3 (count ds))
-        thousands (period t-pos "" "thousand")
-        hundreds (hundreds (headv ds 3) true)]
-    (str thousands hundreds)))
-
-(defn- millions
-  [ds]
-  (let [m-pos (subvec ds 6 (count ds))
-        millions (period m-pos "" "million")
-        thousands (period (subvec ds 3 6) " " "thousand")
-        hundreds (hundreds (headv ds 3) true)]
-    (str millions thousands hundreds)))
+      (str comp o-str))))
 
 (defn num->word
   "Takes a integer between 0 and 999999999 and returns the natural
@@ -110,9 +99,9 @@
   [x]
   {:pre [(valid-number? x)]}
   (let [ds (digits x)
-        count (count ds)]
-    (cond
-      (= x 0) (ones [x])
-      (<= 1 count 3) (hundreds ds false)
-      (<= 4 count 6) (thousands ds)
-      (<= 6 count 9) (millions ds))))
+        len (count ds)
+        periods (map vec (partition 3 3 [] ds))]
+    (if (= x 0)
+      (ones [x]); special case for zero
+      (str/join " " (keep identity (reverse (map-indexed #(period %2 %1 len) periods)))))))    
+
