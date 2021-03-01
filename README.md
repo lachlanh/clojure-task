@@ -41,8 +41,9 @@ lein cloverage
 (num->word 99) ;=> returns ninety nine
 ```
 
-## Docker alternative
-If you don't have lein installed it is possible to run the following commands using the standard clojure docker image. Use `docker run -it --rm -v "$PWD":/usr/src/app -w /usr/src/app clojure lein cloverage` any artifacts of the lein command will probably have permissions matching the docker daemon (everything was created as root when tested locally).
+#### Docker alternative
+
+If you don't have lein installed it is possible to run the lein commands using the standard clojure docker image. Use `docker run -it --rm -v "$PWD":/usr/src/app -w /usr/src/app clojure lein cloverage` any artifacts of the lein command will probably have permissions matching the docker daemon (everything was created as root when tested locally), it should be possible to overcome this with `-u` flag in docker but that is a tangential to the task at hand.
 
 
 ## License
