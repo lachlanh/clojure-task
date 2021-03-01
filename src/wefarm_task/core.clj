@@ -60,7 +60,7 @@
       (ones ds))))
 
 (defn- tens-ones-prefix
-  "Adds \" and \" to tens and ones that need it to satisfy
+  "Adds \"and \" to tens and ones that need it to satisfy
   natural language rules 1021 - one thousand and twenty one"
   [ds prefix]
   (let [tens (tens-ones ds)
@@ -71,11 +71,10 @@
         tens))))
 
 (defn- hundreds
-  "Handles logic to make sure prefix spaces and \" and \" end
-  up in the appropriate places."
+  "Handles logic to make sure  \"and \" gets added to the
+  appropriate places."
   [ds prefix]
   (let [has-hundreds (and (= (count ds) 3) (pos? (last ds)))
-        ;;pre-space (if prefix " " "")
         hundreds (str (ones (tailv ds 1)) " " "hundred")
         tens-pos (if (= (count ds) 3) (pop ds) ds)]
     (if has-hundreds
@@ -95,7 +94,7 @@
 
 (defn num->word
   "Takes a integer between 0 and 999999999 and returns the natural
-  language version eg. 123 -> one hundred and twenty three."
+  language version eg. 123 -> 'one hundred and twenty three'."
   [x]
   {:pre [(valid-number? x)]}
   (let [ds (digits x)
@@ -103,5 +102,9 @@
         periods (map vec (partition 3 3 [] ds))]
     (if (= x 0)
       (ones [x]); special case for zero
-      (str/join " " (keep identity (reverse (map-indexed #(period %2 %1 len) periods)))))))    
+      (->> periods
+           (map-indexed #(period %2 %1 len))
+           reverse
+           (keep identity) ; remove nils
+           (str/join " ")))))
 
