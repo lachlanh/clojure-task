@@ -10,7 +10,7 @@
                        "fifty" "sixty" "seventy" "eighty" "ninety"]
                 })
 
-(def period-names ["" "thousand" "million"])
+(def period-names [nil "thousand" "million"])
 
 (def min-int 0)
 (def max-int 999999999)
@@ -60,7 +60,7 @@
       (ones ds))))
 
 (defn- tens-ones-prefix
-  "Adds \"and \" to tens and ones that need it to satisfy
+  "Adds 'and' to tens and ones that need it to satisfy
   natural language rules 1021 - one thousand and twenty one"
   [ds prefix]
   (let [tens (tens-ones ds)
@@ -71,8 +71,9 @@
         tens))))
 
 (defn- hundreds
-  "Handles logic to make sure  \"and \" gets added to the
-  appropriate places."
+  "Transforms the digit sequence to hundreds, tens and ones. If
+  hundreds are present overrides prefix to true otherwise passes
+  it along (this controls inclusion of 'and'."
   [ds prefix]
   (let [has-hundreds (and (= (count ds) 3) (pos? (last ds)))
         hundreds (str (ones (tailv ds 1)) " " "hundred")
@@ -81,16 +82,18 @@
       (str/join " " (keep identity [hundreds (tens-ones-prefix tens-pos true)]))
       (tens-ones-prefix tens-pos prefix))))
 
+(defn- period-name
+  [i]
+  (if-let [p (period-names i)]
+    (str " " p)))
+
 (defn- period
   "Takes a period (number part grouped in 3's) the index of the part and
   the length of the overall number. Returns the natural language version
-  of the period with the order added (thousand, million etc)"
+  of the period with the period name added (thousand, million etc)"
   [ds i len]
-  (let [comp (hundreds ds (and (= i 0) (> len 3)))
-        order (period-names i)
-        o-str (if-not (str/blank? order) (str " " order))]
-    (if-not (str/blank? comp)
-      (str comp o-str))))
+  (if-let [period (hundreds ds (and (= i 0) (> len 3)))]
+    (str period (period-name i))))
 
 (defn num->word
   "Takes a integer between 0 and 999999999 and returns the natural
