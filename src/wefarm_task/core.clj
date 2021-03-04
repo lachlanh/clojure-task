@@ -65,7 +65,7 @@
 (defn- hundreds
   "Transforms the digit sequence to hundreds, tens and ones. If
   hundreds are present overrides prefix to true otherwise passes
-  it along (this controls inclusion of 'and'."
+  it along (this controls inclusion of 'and')."
   [ds prefix]
   (let [has-hundreds (and (= (count ds) 3) (pos? (last ds)))
         hundreds (str (ones (last ds)) " " "hundred")
