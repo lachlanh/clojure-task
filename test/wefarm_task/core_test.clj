@@ -88,3 +88,7 @@
     (is (= (num->word 1105) "one thousand one hundred and five"))
     (is (= (num->word 56945781) "fifty six million nine hundred and forty five thousand seven hundred and eighty one"))
     (is (= (num->word 999999999) "nine hundred and ninety nine million nine hundred and ninety nine thousand nine hundred and ninety nine"))))
+
+(deftest big-number
+  (testing "a number bigger than a billion"
+    (is (= (num->word 1000000001) "one billion and one"))))

@@ -10,10 +10,10 @@
                        "fifty" "sixty" "seventy" "eighty" "ninety"]
                 })
 
-(def period-names [nil "thousand" "million"])
+(def period-names [nil "thousand" "million" "billion" "trillion"])
 
 (def min-int 0)
-(def max-int 999999999)
+(def max-int 999999999999999)
 
 (defn- valid-number?
   [x]
