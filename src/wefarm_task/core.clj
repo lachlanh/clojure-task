@@ -13,7 +13,8 @@
 (def period-names [nil "thousand" "million" "billion" "trillion"])
 
 (def min-int 0)
-(def max-int 999999999999999)
+;; easier notation for expressing max billion 1e9, trillion 1e12
+(def max-int (dec (bigint 1e12)))
 
 (defn- valid-number?
   [x]
