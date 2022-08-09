@@ -12,8 +12,7 @@ A Clojure library to turn an integer input into a natural language string eg. 99
 
 ## Notes
 
-- Maybe some more examples of natural language numbers. I used 3007002 as a test and had to think a bit whether "three million _and_ seven thousand and two" may be correct, decided it wasn't :).
-- I feel that the my implementation could be further collapsed using more functional language features, but had to decide when to stop, I look forward to getting feedback on how it could be improved.
+- This task was a previous coding challenge.
 
 ## Build
 
@@ -47,7 +46,5 @@ If you don't have lein installed it is possible to run the lein commands using t
 
 
 ## License
-
-Copyright © 2021 Lachlan Hespe
 
 Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
