@@ -1,4 +1,4 @@
-# wefarm-task
+# clojure-task
 
 ## Lachlan Hespe
 

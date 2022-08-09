@@ -1,6 +1,6 @@
-(ns wefarm-task.core-test
+(ns clojure-task.core-test
   (:require [clojure.test :refer :all]
-            [wefarm-task.core :refer :all]))
+            [clojure-task.core :refer :all]))
 
 (deftest bootstrap-test
   (testing "bootstrap test, do something"

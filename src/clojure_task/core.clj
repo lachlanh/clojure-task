@@ -1,14 +1,12 @@
-(ns wefarm-task.core
-  (:require [clojure.core :refer :all]
-            [clojure.string :as str]))
+(ns clojure-task.core
+  (:require [clojure.string :as str]))
 
 (def num-names {:ones ["zero" "one" "two" "three" "four"
                        "five" "six" "seven" "eight" "nine"]
                 :teens ["ten" "eleven" "twelve" "thirteen" "fourteen"
                         "fifteen" "sixteen" "seventeen" "eighteen" "nineteen"]
                 :tens [nil nil "twenty" "thirty" "forty"
-                       "fifty" "sixty" "seventy" "eighty" "ninety"]
-                })
+                       "fifty" "sixty" "seventy" "eighty" "ninety"]})
 
 (def period-names [nil "thousand" "million"])
 
@@ -36,7 +34,7 @@
   [ds]
   (str
    ((:tens num-names) (last ds))
-   (if (pos? (first ds))
+   (when (pos? (first ds))
      (str " " (ones (first ds))))))
 
 (defn- tens-ones
@@ -57,7 +55,7 @@
   [ds prefix]
   (let [tens (tens-ones ds)
         has-tens (pos? (reduce + ds))]
-    (if has-tens
+    (when has-tens
       (if prefix
         (str "and " tens)
         tens))))
@@ -76,7 +74,7 @@
 
 (defn- period-name
   [i]
-  (if-let [p (period-names i)]
+  (when-let [p (period-names i)]
     (str " " p)))
 
 (defn- period
@@ -84,7 +82,7 @@
   the length of the overall number. Returns the natural language version
   of the period with the period name added (thousand, million etc)"
   [ds i len]
-  (if-let [period (hundreds ds (and (= i 0) (> len 3)))]
+  (when-let [period (hundreds ds (and (= i 0) (> len 3)))]
     (str period (period-name i))))
 
 (defn num->word
